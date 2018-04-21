@@ -1,0 +1,13 @@
+{
+  "extends": "airbnb",
+  "plugins": [
+    "relay"
+  ],
+  "rules": {
+    "relay/graphql-syntax": "error",
+    "relay/compat-uses-vars": "warn",
+    "relay/graphql-naming": "error",
+    "relay/generated-flow-types": "warn",
+    "semi": ["error", "never"]
+  }
+}
