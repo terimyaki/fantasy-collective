@@ -1,9 +1,14 @@
 const express = require('express')
+
+// NextJs related
 const next = require('next')
 const { parse } = require('url')
 const { resolve } = require('path')
 const config = require('config')
-const nextConfig = require('../next.config')
+
+// GraphQL Related
+const bodyParser = require('body-parser')
+const graphqlRouter = require('./graphql')
 
 const PORT = config.get('server').port
 const dev = config.util.getEnv('NODE_ENV') !== 'production'
@@ -11,12 +16,14 @@ const dev = config.util.getEnv('NODE_ENV') !== 'production'
 const frontend = next({
   dir: resolve(__dirname, '../frontend'),
   dev,
-  nextConfig,
 })
 
 frontend.prepare()
   .then(() => {
     const app = express()
+
+    // GraphQL Server
+    app.use('/graphql', bodyParser.json(), graphqlRouter)
 
     // Set up next frontend app
     const handle = frontend.getRequestHandler()
